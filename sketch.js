@@ -13,6 +13,17 @@ var lama;
 var tarzan; 
 var foodtruck;
 var fiodental; 
+var papelDeParede;
+var magali;
+var pedro;
+var amora; 
+var edward;
+
+function preload(){
+  papelDeParede = loadImage("./Imagens/background.png");
+  magali = loadImage("./Imagens/melon.png");
+  pedro = loadImage("./Imagens/Rabbit-01.png");
+}
 
 function setup() 
 {
@@ -22,6 +33,7 @@ function setup()
  
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  imageMode(CENTER);
   textSize(50)
 
   lama = new Chao(200, 690, 600, 20);
@@ -32,18 +44,34 @@ function setup()
   Matter.Composite.add(tarzan.body, foodtruck);
 
   fiodental = new Food (tarzan, foodtruck);
+
+  amora = createSprite (250, 575, 100, 100);
+  amora.addImage(pedro);
+  amora.scale = 0.3;
+
+  edward = createImg ("./Imagens/cut_btn.png");
+  edward.position (220, 30);
+  edward.size (50, 50);
+  edward.mouseClicked(neymar);
 }
 
 function draw() 
 {
   background(51);
+  image(papelDeParede, width/2, height/2, 500, 700);
   Engine.update(engine);
   
   lama.draw();
   tarzan.draw();
-  ellipse(foodtruck.position.x, foodtruck.position.y, 15, 15);
+  image(magali,foodtruck.position.x, foodtruck.position.y, 75, 75);
+
+  drawSprites ();
 }
 
-
+function neymar(){
+  tarzan.break();
+  fiodental.detonaRalfh();
+  fiodental = null;
+}
 
 
