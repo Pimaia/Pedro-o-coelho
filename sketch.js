@@ -21,6 +21,13 @@ var edward;
 var piscapisca;
 var hungry;
 var tristeza;
+var aviao;
+var hungry1;
+var jokenpo;
+var tristeza1;
+var salsa;
+var it;
+var alerta;
 
 function preload(){
   papelDeParede = loadImage("./Imagens/background.png");
@@ -29,6 +36,11 @@ function preload(){
   piscapisca = loadAnimation("./Imagens/blink_1.png","./Imagens/blink_2.png","./Imagens/blink_3.png");
   hungry = loadAnimation("./Imagens/eat_0.png","./Imagens/eat_1.png","./Imagens/eat_2.png","./Imagens/eat_3.png","./Imagens/eat_4.png");
   tristeza = loadAnimation ("./Imagens/sad_1.png", "./Imagens/sad_2.png","./Imagens/sad_3.png");
+  aviao = loadSound("./Sons/air.wav");
+  hungry1 = loadSound("./Sons/eating_sound.mp3");
+  jokenpo = loadSound("./Sons/rope_cut.mp3");
+  tristeza1 = loadSound("./Sons/sad.wav");
+  salsa = loadSound("./Sons/sound1.mp3");
 
   piscapisca.playing = true;
   hungry.playing = true;
@@ -45,6 +57,8 @@ function setup()
   createCanvas(500,700);
   engine = Engine.create();
   world = engine.world;
+  salsa.play();
+
 
   piscapisca.frameDelay = 10;
   hungry.frameDelay = 10;
@@ -64,7 +78,7 @@ function setup()
 
   fiodental = new Food (tarzan, foodtruck);
 
-  amora = createSprite (250, 575, 100, 100);
+  amora = createSprite (420, 575, 100, 100);
   amora.addImage(pedro);
   amora.scale = 0.3;
   amora.addAnimation("piscando", piscapisca);
@@ -77,7 +91,18 @@ function setup()
   edward.position (220, 30);
   edward.size (50, 50);
   edward.mouseClicked(neymar);
+
+  it = createImg ("./Imagens/balloon.png");
+  it.position (10, 230);
+  it.size (150, 100);
+  it.mouseClicked(up);
+
+  alerta = createImg ("./Imagens/mute.png");
+  alerta.position (450, 20);
+  alerta.size (50, 50);
+  alerta.mouseClicked(surdo);
 }
+
 
 function draw() 
 {
@@ -94,11 +119,14 @@ function draw()
 
   if(coliseu(amora, foodtruck) === true){
     amora.changeAnimation ("comendo");
+    hungry1.play();
   }
 
   if(foodtruck !== null && foodtruck.position.y >= 650){
     amora.changeAnimation("chorando");
     foodtruck = null;
+    salsa.stop();
+    tristeza1.play();
   }
   drawSprites ();
 }
@@ -107,6 +135,7 @@ function neymar(){
   tarzan.break();
   fiodental.detonaRalfh();
   fiodental = null;
+  jokenpo.play();
 }
 
 function coliseu(predo, malagui){
@@ -122,4 +151,18 @@ function coliseu(predo, malagui){
   }
   }
   
+}
+
+function up(){
+  Matter.Body.applyForce(foodtruck, {x: 0, y: 0}, {x: 0.01, y:0});
+  aviao.play();
+}
+
+function surdo(){
+  if (salsa.isPlaying()){
+    salsa.stop();
+  }
+  else{
+    salsa.play();
+  }
 }
